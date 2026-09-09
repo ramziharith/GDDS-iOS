@@ -1,0 +1,36 @@
+name:  Build GDDS iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on:  macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Xcode
+        run: xcodebuild -version
+
+      - name: Build
+        run: |
+          xcodebuild \
+            -project GDDS.xcodeproj \
+            -scheme GDDS \
+            -sdk iphoneos \
+            -configuration Release \
+            -deriveDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: GDDS-iOS
+          path: build/Build/Products/
+Release-iphoneos/

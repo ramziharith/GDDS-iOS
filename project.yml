@@ -1,0 +1,20 @@
+name:  GDDS
+
+options:
+  bundleIdPrefix:  com.gdds
+
+targets:
+  GDDS:
+    type:  application
+    platform:  iOS
+
+    deploymentTarget:  "16.0"
+
+    sources:
+      -  GDDS
+
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER:
+  com.gdds.mobile
+      INFOPLIST_FILE:  GDDS/Info.plist
+      SWIFT_VERSION:  5.0
