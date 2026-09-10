@@ -1,4 +1,4 @@
-name:  Build GDDS iOS
+name: Build GDDS iOS
 
 on:
   workflow_dispatch:
@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on:  macos-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Xcodegen
+      - name: Install XcodeGen
         run: brew install xcodegen
 
       - name: Generate Xcode project
@@ -24,23 +24,21 @@ jobs:
         run: xcodebuild -version
 
       - name: Show project
-        run: xcodebuild -project GDDS.xcodeproj
--list
+        run: xcodebuild -project GDDS.xcodeproj -list
 
-      - name: Build
+      - name: Build GDDS
         run: |
           xcodebuild \
             -project GDDS.xcodeproj \
             -scheme GDDS \
             -sdk iphoneos \
             -configuration Release \
-            -deriveDataPath build \
+            -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_REQUIRED=NO
 
       - name: Upload app
         uses: actions/upload-artifact@v4
         with:
           name: GDDS-iOS
-          path: build/Build/Products/
-Release-iphoneos/
+          path: build/Build/Products/Release-iphoneos/
