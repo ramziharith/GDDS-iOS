@@ -23,9 +23,6 @@ jobs:
       - name: Check Xcode
         run: xcodebuild -version
 
-      - name: Show project
-        run: xcodebuild -project GDDS.xcodeproj -list
-
       - name: Build GDDS
         run: |
           xcodebuild \
@@ -37,8 +34,14 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
-      - name: Upload app
+      - name: Create IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/GDDS.app Payload/
+          zip -r GDDS-unsigned.ipa Payload
+
+      - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: GDDS-iOS
-          path: build/Build/Products/Release-iphoneos/
+          name: GDDS-iOS-IPA
+          path: GDDS-unsigned.ipa
